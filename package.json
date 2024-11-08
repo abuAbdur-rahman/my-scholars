@@ -12,16 +12,23 @@
   "dependencies": {
     "@shadcn/ui": "^0.0.4",
     "axios": "^1.7.7",
+    "class-variance-authority": "^0.7.0",
     "cloudinary-react": "^1.8.1",
+    "clsx": "^2.1.1",
     "firebase": "^11.0.1",
+    "lucide-react": "^0.455.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.28.0",
-    "streamsaver": "^2.0.6"
+    "streamsaver": "^2.0.6",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
+    "@types/firebase": "^2.4.32",
+    "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",

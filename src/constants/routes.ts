@@ -4,7 +4,7 @@ export const routes = {
     { name: "new", route: "/new" },
     { name: "public", route: "/public" },
     { name: "genre", route: "/genre" },
-    { name: "playlist", route: "/playlist" },
+    { name: "playlist", route: "/playlists" },
     { name: "radio", route: "/radio" },
     { name: "videos", route: "/videos" },
   ],

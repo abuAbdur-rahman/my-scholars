@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities{
+  .center {
+    @apply flex justify-center items-center
+  }
+}
+
+@layer utilities {
+  .shadow-sm {
+    @apply shadow-sm-light dark:shadow-sm-dark;
+  }
+  .shadow-md {
+    @apply shadow-md-light dark:shadow-md-dark;
+  }
+  .shadow-lg {
+    @apply shadow-lg-light dark:shadow-lg-dark;
+  }
+  .shadow-xl {
+    @apply shadow-xl-light dark:shadow-xl-dark;
+  }
+  .shadow-2xl {
+    @apply shadow-2xl-light dark:shadow-2xl-dark;
+  }
+  .shadow-inner {
+    @apply shadow-inner-light dark:shadow-inner-dark;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -28,8 +55,7 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
-  }
+    --radius: 0.5rem}
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;

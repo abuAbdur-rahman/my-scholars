@@ -1,6 +1,6 @@
 export const routes = {
   lectures: [
-    { name: "home", route: "/home" },
+    { name: "home", route: "/" },
     { name: "new", route: "/new" },
     { name: "public", route: "/public" },
     { name: "genre", route: "/genre" },

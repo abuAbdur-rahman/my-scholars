@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.3",
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-slot": "^1.1.0",
     "@shadcn/ui": "^0.0.4",
     "appwrite": "^16.0.2",
     "axios": "^1.7.7",

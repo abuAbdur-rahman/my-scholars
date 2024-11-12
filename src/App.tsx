@@ -18,6 +18,7 @@ import Downloaded from "./(root)/downloaded";
 import History from "./(root)/History";
 import Search from "./components/Search";
 import Nav from "./components/Nav";
+import BottomNav from "./components/BottomNav";
 
 // Main App Component
 const App = () => {
@@ -37,6 +38,9 @@ const App = () => {
         </div>
         <div> <MobileNav /> </div>
       </header>
+
+      {/* Mobile bottom Nav */}
+      <BottomNav />
 
       {/* Main Routes */}
       <main className="flex-1 space-x-2 min-h-screen overflow-y-auto">

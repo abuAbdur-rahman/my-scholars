@@ -4,12 +4,17 @@ import LectureIcon from "./Icons";
 import { cn } from "@/lib/utils";
 
 
-const SideBarItem = ({ name, route }: { name: string; route: string }) => {
+export const SideBarItem = ({ name, route, isBottom }: { name: string; route: string; isBottom? : boolean }) => {
   const location = useLocation()
   return (
-    <Link to={route} className={cn('w-full p-5 flex items-center gap-5', location.pathname === route && 'bg-primary rounded-xl text-black')}>
+    <Link
+      to={route}
+      className={cn('w-full p-5 flex items-center gap-5',
+        location.pathname === route && 'bg-primary rounded-xl text-black',
+        isBottom && 'center flex-col gap-1 p-3 rounded-3xl'
+      )}>
       <LectureIcon name={name} />
-      <p className='hidden lg:block'>{name.toUpperCase()}</p>
+      <p className={cn(isBottom && 'text-xs')}>{name.toUpperCase()}</p>
     </Link>
   )
 };

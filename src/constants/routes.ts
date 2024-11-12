@@ -13,4 +13,9 @@ export const routes = {
     { name: "downloaded", route: "/downloaded" },
     { name: "history", route: "/history" },
   ],
+  mobile: [
+    { name: "home", route: "/" },
+    { name: "playlist", route: "/playlists" },
+    {name: 'library', route: '/library'}
+  ]
 };

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getWords } from "@/lib/helpers";
+import { useQuery} from 'react-query'
+import { queryNew } from "@/db/query";
 
 
 type Props = {
@@ -12,6 +14,14 @@ type Props = {
 };
 
 const CardsSection = ({ name, lectures }: Props) => {
+
+  const { status, data, error } = useQuery({
+    queryKey: [name],
+    queryFn: () => queryNew()
+  })
+   
+
+  if(status === 'error') <p>Unable To fetch Lectures: {error as string} </p>
   return (
     <section className='w-full p-2 mt-6 mb-4'>
       <div className='flex items-center justify-between'>
@@ -25,7 +35,7 @@ const CardsSection = ({ name, lectures }: Props) => {
         </Button>
       </div>
 
-      {lectures ? (
+      {data ? (
         <div className='flex gap-5 items-center overflow-scroll'>
           {/* @ts-expect-error Lecture */}
           {lectures.map((lecture: Lecture) => {

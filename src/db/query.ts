@@ -1,4 +1,4 @@
-import db from "db-config/neondb.config";
+import db from "../../db-config/neondb.config";
 
 //Querying New Data
 export const queryNew = (): Promise<Lectures> => {

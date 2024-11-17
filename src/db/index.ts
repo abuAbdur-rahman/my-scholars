@@ -1,14 +1,14 @@
-import neon from '../../db-config/neondb.config.js'
+import db from '../../db-config/neondb.config'
 
-const fetchLectures = async () => { 
-  try { 
-    const { rows } = await neon.query('SELECT * FROM lectures');} 
-    
-    console.log(rows); // Logs the rows fetched from the "lectures" table
+
+export const fetchLectures = async (): Promise<Lectures | undefined > => {
+  try {
+    const lectures  = await db('SELECT * FROM lectures')
+    console.log(lectures)
+    return lectures 
   } catch (error) {
-    console.error('Error querying NeonDB:', error);
+    console.log('Unable to fetch the data, server error :', error)
   }
-
-  return rows  
 }
+
 

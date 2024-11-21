@@ -1,11 +1,12 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { Card, CardContent, CardFooter } from "./ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getWords } from "@/lib/helpers";
 import { useQuery} from 'react-query'
 import { queryNew } from "@/db/query";
+import Marquee from 'react-marquee-slider';
 
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
   lectures: Lectures | undefined;
 };
 
-const CardsSection = ({ name, lectures }: Props) => {
+const CardsSection = ({ name }: Props) => {
 
   const { status, data, error } = useQuery({
     queryKey: [name],
@@ -38,14 +39,27 @@ const CardsSection = ({ name, lectures }: Props) => {
       {data ? (
         <div className='flex gap-5 items-center overflow-scroll'>
           {/* @ts-expect-error Lecture */}
-          {lectures.map((lecture: Lecture) => {
+          {data.map((lecture: Lecture) => {
             // eslint-disable-directive
             return (
               <Card key={lecture.id}>
-                <CardContent className='truncatej'>
-                  <p>{getWords(lecture.lecture_title)}</p>
+                <CardHeader className='p-0'>
+                  <img
+                    src='https://via.placeholder.com/300x200'
+                    alt='Album Cover'
+                    className='w-[300px] h-48 object-cover rounded-t-md'
+                  />
+                </CardHeader>
+                <CardContent className='p-4'>
+                  <CardTitle>
+                    <Marquee velocity={50}>
+                      <p className="text-lg font-bold">{lecture.lecture_title}</p>
+                      <span></span>
+                    </Marquee>
+                  </CardTitle>
+                  <CardDescription className="text-sm text-muted-foreground">{lecture.lecturer_name}</CardDescription>
+                  <p className="text-sm mt-2 text-muted-foreground">Duration: { lecture.duration }</p>
                 </CardContent>
-                <CardFooter>{lecture.duration}</CardFooter>
               </Card>
             );
           })}

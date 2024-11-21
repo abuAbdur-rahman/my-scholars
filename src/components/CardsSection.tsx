@@ -1,9 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getWords } from "@/lib/helpers";
 import { useQuery} from 'react-query'
 import { queryNew } from "@/db/query";
 import Marquee from 'react-marquee-slider';

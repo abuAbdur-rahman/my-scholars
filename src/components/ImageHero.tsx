@@ -34,6 +34,11 @@ const Hero = () => {
         <CarouselContent>
           {lecturers.map((item) => (
             <CarouselItem key={item.name} className='w-full center h-[250px]'>
+          <img
+          src="https://via.placeholder.com/300x200"
+          alt="Album Cover"
+          className="w-full object-cover rounded-lg"
+        />
               {item.name}
             </CarouselItem>
           ))}

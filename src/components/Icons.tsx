@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Home, FilePlus, Globe, Music, Mic, Library, History, Download, Video, Radio, Star} from "lucide-react"; // Import relevant icons
+import { Home, FilePlus, Globe, Music, Mic, Library, History, Download, Video, Radio, Star, Play} from "lucide-react"; // Import relevant icons
 
 interface LectureIconProps {
   name: string;
@@ -29,6 +29,8 @@ const LectureIcon: FC<LectureIconProps> = ({ name }) => {
       return <History />;
     case "library":
       return <Library />;
+    case "play":
+      return <Play />
     default:
       return <Home />;
   }

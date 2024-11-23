@@ -9,23 +9,25 @@ export const queryNew = (): Promise<Lectures> => {
 
 //Query Using Category
 export const queryByCategory = (category: string): Promise<Lectures> => {
-  const data = db(`SELECT * FROM lectures WHERE category = ${category}`);
+  const data = db(`SELECT * FROM lectures WHERE category = '${category}'`);
 
   return data;
 };
 
 //Query Using Lecturer Name
 export const queryByName = (name: string): Promise<Lectures> => {
-  const data = db(`SELECT * FROM lectures WHERE lecturer_name = ${name}`);
-
+  const data = db(`SELECT * FROM lectures WHERE lecturer_name = '${name}'`);
   return data;
 };
 
 //Query from search
-export const queryByTitle = (title: string): Promise<Lectures> => {
-  const data = db(`SELECT * FROM lectures WHERE lecture_title LIKE ${title}`);
+export const queryById = async (id: string ): Promise<Lecture> => {
+  console.log(id)
+  const data = await db(`SELECT * FROM lectures WHERE id = '${id}'`)
+  console.log(data, id)
 
-  return data;
+  {/* @ts-expect-error Lecture */ }
+  return data[0];
 };
 
 //Query Short Lectures
@@ -37,7 +39,7 @@ export const queryShortLectures = (): Promise<Lectures> => {
 
 //Query by tags
 export const queryByTag = (tag: string): Promise<Lectures> => {
-  const data = db(`SELECT COUNT(*) FROM lectures WHERE tags LIKE ${tag}`);
+  const data = db(`SELECT COUNT(*) FROM lectures WHERE tags LIKE '${tag}'`);
 
   return data;
 };
@@ -46,15 +48,16 @@ export const queryByTag = (tag: string): Promise<Lectures> => {
 
 export const querySearch = (param: string): Promise<Lectures> => {
   const data = db(`
-            SELECT * 
-            FROM lectures 
-            WHERE lecturer_name ILIKE ${param} 
-            OR lecture_title ILIKE ${param} 
-            OR tags ILIKE ${param} 
-            OR description ILIKE ${param} 
-            OR category ILIKE ${param} 
+            SELECT *
+            FROM lectures
+            WHERE lecturer_name ILIKE '${param}'
+            OR lecture_title ILIKE '${param}'
+            OR tags ILIKE '${param}'
+            OR description ILIKE '${param}'
+            OR category ILIKE '${param}'
             ORDER BY date_uploaded DESC
         `);
+  
   return data;
 };
 

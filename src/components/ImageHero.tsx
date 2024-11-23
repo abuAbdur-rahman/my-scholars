@@ -31,7 +31,7 @@ const Hero = () => {
         plugins={[Autoplay({ delay: 2000 })]} // Auto slide every 2 seconds
         className='w-full center'
       >
-        <CarouselContent>
+        <CarouselContent className="">
           {lecturers.map((item) => (
             <CarouselItem key={item.name} className='w-full center h-[250px]'>
           <img

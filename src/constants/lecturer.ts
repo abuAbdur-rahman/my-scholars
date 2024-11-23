@@ -41,3 +41,4 @@ export const lecturers = [
   },
 ];
 
+export const lecturer_Names = lecturers.map(lecturer => lecturer.name)

@@ -15,7 +15,7 @@ export const routes = {
   ],
   mobile: [
     { name: "home", route: "/" },
-    { name: "playlist", route: "/playlists" },
+    { name: "play", route: "/play" },
     {name: 'library', route: '/library'}
   ]
 };

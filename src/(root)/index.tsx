@@ -1,11 +1,14 @@
 import Hero from "@/components/ImageHero";
 import CardsSection from "@/components/CardsSection";
-import { useEffect, useState } from "react";
-import { fetchLectures } from "@/db";
-import { LoaderCircle } from "lucide-react";
+import { lecturer_Names } from "@/constants/lecturer";
+//import { LoaderCircle } from "lucide-react";
 
+const SECTIONS: string[] = [
+  "New",
+  ...lecturer_Names,
+];
 const Home = () => {
-  const [lectures, setlectures] = useState<Lectures | undefined>(undefined);
+  /* const [lectures, setlectures] = useState<Lectures | undefined>(undefined);
   const [error, setError] = useState<unknown>("");
   useEffect(() => {
     const fetchAllLectures = async () => {
@@ -20,11 +23,13 @@ const Home = () => {
 
     fetchAllLectures();
   }, []);
+  */
   return (
     <div className='flex flex-col gap-10 px-2 py-6'>
       <Hero />
-      <CardsSection name='New' lectures={lectures} />
-      {error ? <LoaderCircle /> : null}
+      {SECTIONS.map((name) => {
+        return <CardsSection key={name} name={name} />;
+      })}
       {/*(
         <div className="center w-full h-[200px]">
           <LoaderCircle className='animate-spin' />

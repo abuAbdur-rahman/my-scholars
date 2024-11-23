@@ -4,31 +4,37 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery} from 'react-query'
-import { queryNew } from "@/db/query";
+import { queryNew, querySearch } from "@/db/query";
 import Marquee from 'react-marquee-slider';
 
 
 type Props = {
   name: string;
-  lectures: Lectures | undefined;
 };
 
 const CardsSection = ({ name }: Props) => {
 
   const { status, data, error } = useQuery({
-    queryKey: [name],
-    queryFn: () => queryNew()
+    queryKey: ['Cards', name],
+    queryFn: () => {
+      switch (name) {
+        case 'New':
+          return queryNew()
+        default:
+          return querySearch(name)
+      }}
   })
-   
 
   if(status === 'error') <p>Unable To fetch Lectures: {error as string} </p>
   return (
     <section className='w-full p-2 mt-6 mb-4'>
       <div className='flex items-center justify-between'>
-        <p className='text-xl font-mono'>{name}</p>
+        <p className='text-xl font-mono'>{name + ' Lectures'}</p>
 
         <Button variant='link' className='center gap-3' asChild>
-          <Link to={"/" + name}>
+          <Link to={
+            name === 'New' ? "/" + name : '/'
+          }>
             <p>More</p>
             <ArrowRight />
           </Link>
@@ -36,11 +42,12 @@ const CardsSection = ({ name }: Props) => {
       </div>
 
       {data ? (
-        <div className='flex gap-5 items-center overflow-scroll'>
+        <div className='flex gap-5 items-center overflow-scroll py-4'>
           {/* @ts-expect-error Lecture */}
           {data.map((lecture: Lecture) => {
             // eslint-disable-directive
             return (
+              <Link to={`/play/${lecture.id}`} key={lecture.id}>
               <Card key={lecture.id}>
                 <CardHeader className='p-0'>
                   <img
@@ -60,6 +67,7 @@ const CardsSection = ({ name }: Props) => {
                   <p className="text-sm mt-2 text-muted-foreground">Duration: { lecture.duration }</p>
                 </CardContent>
               </Card>
+              </Link>
             );
           })}
         </div>

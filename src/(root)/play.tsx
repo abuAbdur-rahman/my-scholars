@@ -12,72 +12,97 @@ import {
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import { queryById } from "@/db/query";
+import { queryById, queryLatestLecture } from "@/db/query";
+//import { useLocalStorage } from "react-use";
+import { useLecture } from "@/hooks/useLectursPlay";
 
 const Play = () => {
   const { audioId: id } = useParams();
   const navigate = useNavigate();
-    
+  /*
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(.8); // 1 is max
-
+  const [volume, setVolume] = useState(0.8); // 1 is max
+  const [lastPlayedId, setLastPlayedId] = useLocalStorage<string | null>(
+    "lastPlayedId",
+    null
+  );
+  */
+   //const [duration, setDuration] = useState(0);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const { state: { id: lastPlayedId, isPlaying, currentTime, duration, volume }, dispatch } = useLecture();
+  console.log(id);
   const {
     data: lecture,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["play", id],
-    queryFn: () => queryById(id!),
-    //enabled: !!id,
+    queryKey: ["play", id, lastPlayedId],
+    queryFn: async () => {
+      if (id) {
+        return queryById(id);
+      } else if (lastPlayedId) {
+        return queryById(lastPlayedId);
+      }
+      return queryLatestLecture();
+    },
     onSuccess: (data) => {
       if (data?.audio_url) {
         const newAudio = new Audio(data.audio_url);
         newAudio.addEventListener("timeupdate", () =>
-          setCurrentTime(newAudio.currentTime)
+          dispatch({ type: "UPDATE_TIME", payload: newAudio?.currentTime })
         );
         newAudio.addEventListener("loadedmetadata", () =>
-          setDuration(newAudio.duration)
+          dispatch({ type: "SET_DURATION", payload: newAudio?.duration })
         );
         setAudio(newAudio);
       }
     },
   });
 
+
   const handlePlayPause = () => {
     if (isPlaying) {
       audio?.pause();
+      dispatch({ type: "PAUSE" });
     } else {
       audio?.play();
+      dispatch({ type: "PLAY", payload: { id: id! } });
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
+    dispatch({ type: "SET_VOLUME", payload: newVolume });
     if (audio) audio.volume = newVolume;
   };
 
   const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTime = parseFloat(e.target.value);
     if (audio) audio.currentTime = newTime;
-    setCurrentTime(newTime);
+    const currentTime = audio?.currentTime ?? 0; // Fallback to 0 if undefined
+    dispatch({ type: "UPDATE_TIME", payload: currentTime });
   };
-
+  useEffect(() => {
+    if (lecture?.id) {
+            dispatch({ type: "PLAY", payload: { id: id! } })
+    }
+  }, [lecture, dispatch, id]);
   useEffect(() => {
     return () => {
       audio?.pause();
       audio?.removeEventListener("timeupdate", () =>
-        setCurrentTime(audio.currentTime)
+            dispatch({ type: "UPDATE_TIME", payload: audio?.currentTime })
       );
       audio?.removeEventListener("loadedmetadata", () =>
-        setDuration(audio.duration)
+        dispatch({ type: "SET_DURATION", payload: audio?.duration })
       );
     };
-  }, [audio]);
+  }, [audio, dispatch])
+
+  if (!audio) return;
 
   if (isLoading) {
     return (
@@ -106,7 +131,11 @@ const Play = () => {
     <div className='p-4'>
       {/* Header */}
       <header className='flex justify-between items-center mb-4'>
-        <Button variant='ghost' onClick={() => navigate(-1)} className='justify-self-start'>
+        <Button
+          variant='ghost'
+          onClick={() => navigate(-1)}
+          className='justify-self-start'
+        >
           <ChevronLeft className='mr-2' /> Back
         </Button>
         <h1 className='text-xl font-semibold justify-self-center'>

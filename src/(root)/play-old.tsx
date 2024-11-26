@@ -6,7 +6,8 @@ import Marquee from "react-marquee-slider";
 import ReactPlayer from "react-player";
 import { useQuery } from "react-query";
 import {
-  useParams, useNavigate
+  useParams,
+  useNavigate
  } from "react-router-dom";
 
 const Play = () => {

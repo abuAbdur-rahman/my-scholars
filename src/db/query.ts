@@ -6,12 +6,29 @@ export const queryNew = (): Promise<Lectures> => {
 
   return data;
 };
+/* export const queryNewOne = (): Promise<Lecture> => {
+  console.log('Hi')
+  const data = db(`SELECT * FROM lectures ORDER BY date_uploaded DESC LIMIT 1`);
+  return data[0]
+}*/
+
+//Query LatestLecture
+export const queryLatestLecture = async (): Promise<Lecture> => {
+  const [latestLecture] = await db(`
+    SELECT * FROM lectures
+    ORDER BY date_uploaded DESC
+    LIMIT 1
+  `);
+  /* @ts-expect-error Lecture */
+  return latestLecture;
+};
+
 
 //Query Using Category
 export const queryByCategory = (category: string): Promise<Lectures> => {
   const data = db(`SELECT * FROM lectures WHERE category = '${category}'`);
 
-  return data;
+  return data
 };
 
 //Query Using Lecturer Name
@@ -24,7 +41,6 @@ export const queryByName = (name: string): Promise<Lectures> => {
 export const queryById = async (id: string ): Promise<Lecture> => {
   console.log(id)
   const data = await db(`SELECT * FROM lectures WHERE id = '${id}'`)
-  console.log(data, id)
 
   {/* @ts-expect-error Lecture */ }
   return data[0];

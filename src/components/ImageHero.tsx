@@ -20,7 +20,6 @@ const Hero = () => {
         setCurrentIndex(api.selectedScrollSnap());
       });
     }
-    console.log(api, currentIndex);
   }, [api, currentIndex]);
 
   return (

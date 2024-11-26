@@ -30,10 +30,13 @@ const Play = () => {
     null
   );
   */
-   //const [duration, setDuration] = useState(0);
+  //const [duration, setDuration] = useState(0);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-  const { state: { id: lastPlayedId, isPlaying, currentTime, duration, volume }, dispatch } = useLecture();
-  console.log(id);
+  const {
+    state: { id: lastPlayedId, isPlaying, currentTime, duration, volume },
+    dispatch,
+  } = useLecture();
+
   const {
     data: lecture,
     isLoading,
@@ -49,6 +52,7 @@ const Play = () => {
       return queryLatestLecture();
     },
     onSuccess: (data) => {
+      dispatch({ type: "SET_DATA", payload: data });
       if (data?.audio_url) {
         const newAudio = new Audio(data.audio_url);
         newAudio.addEventListener("timeupdate", () =>
@@ -61,7 +65,6 @@ const Play = () => {
       }
     },
   });
-
 
   const handlePlayPause = () => {
     if (isPlaying) {
@@ -87,20 +90,25 @@ const Play = () => {
   };
   useEffect(() => {
     if (lecture?.id) {
-            dispatch({ type: "PLAY", payload: { id: id! } })
+      dispatch({ type: "PLAY", payload: { id: id! } });
     }
   }, [lecture, dispatch, id]);
   useEffect(() => {
     return () => {
       audio?.pause();
       audio?.removeEventListener("timeupdate", () =>
-            dispatch({ type: "UPDATE_TIME", payload: audio?.currentTime })
+        dispatch({ type: "UPDATE_TIME", payload: audio?.currentTime })
       );
       audio?.removeEventListener("loadedmetadata", () =>
         dispatch({ type: "SET_DURATION", payload: audio?.duration })
       );
     };
-  }, [audio, dispatch])
+  }, [audio, dispatch]);
+
+  useEffect(() => {
+    if (isPlaying) audio?.pause();
+    audio?.play();
+  }, [isPlaying, audio]);
 
   if (!audio) return;
 
@@ -130,17 +138,15 @@ const Play = () => {
   return (
     <div className='p-4'>
       {/* Header */}
-      <header className='flex justify-between items-center mb-4'>
+      <header className='text-center relative mb-6'>
         <Button
           variant='ghost'
           onClick={() => navigate(-1)}
-          className='justify-self-start'
+          className=' absolute -top-2 -left-6'
         >
           <ChevronLeft className='mr-2' /> Back
         </Button>
-        <h1 className='text-xl font-semibold justify-self-center'>
-          Now Playing
-        </h1>
+        <h1 className='text-xl font-semibold'>Now Playing</h1>
       </header>
 
       {/* Media Section */}

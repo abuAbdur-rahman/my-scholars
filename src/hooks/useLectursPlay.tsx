@@ -8,16 +8,19 @@ interface AudioState {
   currentTime: number;
   volume: number;
   duration: number;
+  data: Lecture | null;
 }
 
 // Actions for updating audio state
-type Action =
+export type Action =
   | { type: "SET_AUDIO"; payload: AudioState }
   | { type: "PLAY"; payload: { id: string } }
   | { type: "PAUSE" }
   | { type: "UPDATE_TIME"; payload: number }
   | { type: "SET_VOLUME"; payload: number }
-    | { type: "SET_DURATION"; payload: number };
+  | { type: "SET_DURATION"; payload: number }
+  | { type: "SET_DATA"; payload: Lecture };
+
 // Reducer to handle state updates
 const audioReducer = (state: AudioState, action: Action): AudioState => {
   switch (action.type) {
@@ -32,7 +35,9 @@ const audioReducer = (state: AudioState, action: Action): AudioState => {
     case "SET_VOLUME":
       return { ...state, volume: action.payload };
     case "SET_DURATION":
-      return { ...state, volume: action.payload };
+      return { ...state, duration: action.payload };
+    case "SET_DATA":
+      return { ...state, data: action.payload };
     default:
       return state;
   }
@@ -51,6 +56,8 @@ const initialAudioState: AudioState = {
   currentTime: 0,
   volume: 1,
   duration: 0,
+  data: null
+  ,
 };
 
 // Provider component

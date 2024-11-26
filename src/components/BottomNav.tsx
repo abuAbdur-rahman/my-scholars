@@ -1,6 +1,10 @@
 import { routes } from "@/constants/routes";
 import { SideBarItem } from "./Sidebar";
 import Indicator from "./Indicator";
+import { useLecture } from "@/hooks/useLectursPlay";
+
+
+/*
 
 const Lectured = {
   id: "5ed2ba6e-85db-4198-a231-ace9b03bf9c4",
@@ -15,10 +19,21 @@ const Lectured = {
   category: "Aqeedah",
 };
 
+*/
+
+
 const BottomNav = () => {
+  const { state: { id, isPlaying, data }, dispatch } = useLecture();
+  
   return (
     <nav className='sm-hidden fixed bottom-5 w-full px-2'>
-      <Indicator lecture={Lectured} />
+      {
+        (id && data) && <Indicator
+          lecture={data}
+          isPlaying={isPlaying}
+          dispatch={dispatch}
+          id={id}
+      />}
       <div className='mb-5' />
       <div className='w-full rounded-t-3xl bg-gray-800/60'>
         <div className='flex w-full items-center justify-around p-2'>

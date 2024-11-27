@@ -109,6 +109,19 @@ const Play = () => {
     if (isPlaying) audio?.pause();
     audio?.play();
   }, [isPlaying, audio]);
+  
+  /*
+  useEffect(() => {
+    if (!audio) return;
+    // Attach the event listener
+    audio.addEventListener("handleVolumeChange", handleVolumeChange);
+
+    return () => {
+      // Clean up the event listener
+      audio.removeEventListener("handleVolumeChange", handleVolumeChange);
+    };
+  }, [audio]);
+  */
 
   if (!audio) return;
 

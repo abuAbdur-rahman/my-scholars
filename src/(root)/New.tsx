@@ -1,8 +1,11 @@
-import React from 'react'
+import LectureList from "@/components/LectureList"
+
 
 const New = () => {
   return (
-    <div>New</div>
+    <div>
+      <LectureList page="New" />
+    </div>
   )
 }
 

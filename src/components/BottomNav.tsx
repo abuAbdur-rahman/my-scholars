@@ -26,7 +26,7 @@ const BottomNav = () => {
   const { state: { id, isPlaying, data }, dispatch } = useLecture();
   
   return (
-    <nav className='sm-hidden fixed bottom-5 w-full px-2'>
+    <nav className='sm-hidden fixed bottom-5 w-full px-2 z-10'>
       {
         (id && data) && <Indicator
           lecture={data}

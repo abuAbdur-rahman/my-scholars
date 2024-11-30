@@ -19,6 +19,7 @@ import History from "./(root)/History";
 import Search from "./components/Search";
 import Nav from "./components/Nav";
 import BottomNav from "./components/BottomNav";
+import Library from "./(root)/Libraries";
 
 // Main App Component
 const App = () => {
@@ -62,6 +63,7 @@ const App = () => {
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/downloaded" element={<Downloaded />} />
           <Route path="/history" element={<History />} />
+                    <Route path="/library" element={<Library />} />
         </Routes>
       </main>
       

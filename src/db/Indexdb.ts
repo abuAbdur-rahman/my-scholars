@@ -1,5 +1,11 @@
 import { openDB } from "idb";
 
+type audioData = {
+  id: string;
+  audioBlob: Blob;
+  metadata: Partial<Lecture>;
+}
+
 const dbName = "audioDownloadsDB";
 
 export const initDB = async () => {
@@ -12,11 +18,7 @@ export const initDB = async () => {
   });
 };
 
-export const saveAudio = async (audioData: {
-  id: string;
-  audioBlob: Blob;
-  metadata: Partial<Lecture>;
-}) => {
+const saveAudio = async (audioData: audioData) => {
   const db = await initDB();
   await db.put("audioStore", audioData);
 };
@@ -28,15 +30,12 @@ export const downloadAudio = async (url: string, id: string, metadata: object) =
     await saveAudio({ id, audioBlob, metadata });
 };
 
-export const getAudio = async (id: string) => {
+export const getAudio = async (id: string) : Promise<audioData> => {
   const db = await initDB();
   return await db.get("audioStore", id);
 };
 
-export const getAllAudios = async () => {
+export const getAllAudios = async (): Promise<audioData[]> => {
   const db = await initDB();
   return await db.getAll("audioStore");
 };
-
-
-

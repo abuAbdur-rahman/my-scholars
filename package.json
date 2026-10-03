@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "node api.js && vite",
+    "build": "node api.js && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -18,7 +18,7 @@
     "@radix-ui/react-tabs": "^1.1.1",
     "@shadcn/ui": "^0.0.4",
     "appwrite": "^16.0.2",
-    "axios": "^1.7.7",
+    "axios": "^1.20.0",
     "class-variance-authority": "^0.7.0",
     "cloudinary-react": "^1.8.1",
     "clsx": "^2.1.1",
